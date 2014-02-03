@@ -4,7 +4,7 @@ import argparse
 import portal
 
 parser = argparse.ArgumentParser(description='Modify layer in layers.json')
-parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
+parser.add_argument("--file", help="Path to the layers.json file (default /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the layer to be modified", required=True)
 parser.add_argument('--url', help="Change the url of the WMS server")
 parser.add_argument('--wmsname', help="Change the name of the layer in the WMS server")
@@ -18,6 +18,9 @@ parser.add_argument('--group', help="Change the group the layer is in")
 args = parser.parse_args()
 if args.start_visible and args.start_invisible:
   print "Cannot set both --start-visible and --start-invisible in the same call"
+  exit(1)
+if args.queryable and args.not_queryable:
+  print "Cannot set both --queryable and --non-queryable in the same call"
   exit(1)
 
 root = portal.readPortalRoot(args.file)
@@ -38,16 +41,16 @@ if args.start_invisible:
   layer["active"] = False
 
 if args.url is not None:
-  layer["baseUrl"] = args.url
+  wmsLayer["baseUrl"] = args.url
 
 if args.wmsname is not None:
-  layer["wmsName"] = args.wmsname
+  wmsLayer["wmsName"] = args.wmsname
 
 if args.queryable is not None:
-  layer["queryable"] = True
+  wmsLayer["queryable"] = True
 
 if args.not_queryable is not None:
-  layer["queryable"] = False
+  wmsLayer["queryable"] = False
 
 portal.writePortalRoot(root, args.file)
 

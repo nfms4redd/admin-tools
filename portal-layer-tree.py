@@ -11,8 +11,8 @@ def showGroupItems(items, indent):
       print('\t' * indent + item.get("id"))
       showGroupItems(item.get("items"), indent+1)
 
-parser=argparse.ArgumentParser(description='''Shows the layer tree as specified in layers.json.''', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
+parser=argparse.ArgumentParser(description='''Shows the layer tree as specified in layers.json.''')
+parser.add_argument("--file", help="Path to the layers.json file (default /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
 args=parser.parse_args()
 
 with open(args.file, "r") as file:

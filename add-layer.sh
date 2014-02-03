@@ -23,6 +23,6 @@ returnCode=`echo "$output" | tail -1`
 if [ $returnCode -eq 201 ]; then
 	echo "Capa creada con exito: $layer" 
 else
-	echo "ERROR cargando capa '$layer' (code $returnCode): `echo $output | tr -d ' '`"
+	echo "ERROR cargando capa '$layer' (code $returnCode): $output"
 fi
 

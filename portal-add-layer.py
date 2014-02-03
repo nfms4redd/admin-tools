@@ -12,7 +12,7 @@ def findByIdOrCreate(list, id):
   return ret
 
 parser = argparse.ArgumentParser(description='Modify layer in layers.json')
-parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
+parser.add_argument("--file", help="Path to the layers.json file (default /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the layer to be modified", required=True)
 parser.add_argument('--url', help="URL of the GeoServer layer", required=True)
 parser.add_argument('--wmsname', help="Name of the layer in geoserver", required=True)

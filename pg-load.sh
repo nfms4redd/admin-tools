@@ -9,7 +9,7 @@ doc_encoding="Codificación de caracteres del fichero .dbf"
 doc_database="Base de datos que contiene al esquema donde se añadirá la nueva tabla"
 doc_file="Fichero .shp a añadir"
 
-source pg_parse.sh
+source pg-parse.sh
 
 if [ ! -v file ]
 then

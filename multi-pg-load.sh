@@ -8,7 +8,7 @@ doc_database="Base de datos que contiene el esquema donde se añadirán las tabl
 doc_files="Expresión para filtrar los ficheros (por defecto '*.shp')"
 doc_folder="Directorio que contiene los ficheros a añadir. Los ficheros pueden estar en cualquier subdirectorio dentro del directorio especificado"
 
-source pg_parse.sh
+source pg-parse.sh
 
 if [ ! -v folder ]
 then

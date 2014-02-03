@@ -4,9 +4,9 @@ import sys
 import portal 
 import argparse
 
-parser = argparse.ArgumentParser(description='Modify layer in layers.json')
-parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
-parser.add_argument('--id', help="Id of the layer to be modified", required=True)
+parser = argparse.ArgumentParser(description='Remove layer in layers.json')
+parser.add_argument("--file", help="Path to the layers.json file (default /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
+parser.add_argument('--id', help="Id of the layer to be removed", required=True)
 args = parser.parse_args()
 
 layerId = args.id;
