@@ -2,6 +2,13 @@ set -e
 
 getoptString='crs:,schema:,encoding:,database:,file:'
 
+doc_command="Carga un fichero .shp como una tabla de PostGIS."
+doc_crs="Sistema de coordenadas del fichero .shp"
+doc_schema="Esquema donde se añadirá la nueva tabla"
+doc_encoding="Codificación de caracteres del fichero .dbf"
+doc_database="Base de datos que contiene al esquema donde se añadirá la nueva tabla"
+doc_file="Fichero .shp a añadir"
+
 source pg_parse.sh
 
 if [ ! -v file ]
