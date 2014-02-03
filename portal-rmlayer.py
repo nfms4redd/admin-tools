@@ -5,13 +5,14 @@ import portal
 import argparse
 
 parser = argparse.ArgumentParser(description='Modify layer in layers.json')
+parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the layer to be modified", required=True)
 args = parser.parse_args()
 
 layerId = args.id;
 wmsLayerId = "wms-" + layerId
 
-root = portal.readPortalRoot()
+root = portal.readPortalRoot(args.file)
 
 wmsLayer = portal.findLayerById(root["wmsLayers"], wmsLayerId)
 if wmsLayer is not None:
@@ -25,4 +26,4 @@ group = portal.findGroupContainingLayer(root, layerId)
 if (group is not None):
   group.get("items").remove(layerId)
 
-portal.writePortalRoot(root)
+portal.writePortalRoot(root, args.file)

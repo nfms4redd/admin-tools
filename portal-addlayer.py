@@ -12,6 +12,7 @@ def findByIdOrCreate(list, id):
   return ret
 
 parser = argparse.ArgumentParser(description='Modify layer in layers.json')
+parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the layer to be modified", required=True)
 parser.add_argument('--url', help="URL of the GeoServer layer", required=True)
 parser.add_argument('--wmsname', help="Name of the layer in geoserver", required=True)
@@ -26,7 +27,7 @@ wmsName = args.wmsname
 label = args.label
 groupId = args.group
 
-root = portal.readPortalRoot()
+root = portal.readPortalRoot(args.file)
 
 wmsLayerId = "wms-" + layerId
 
@@ -43,4 +44,4 @@ portalLayer["id"] = layerId
 
 portal.setLayerInGroup(root, groupId, layerId)
 
-portal.writePortalRoot(root)
+portal.writePortalRoot(root, args.file)

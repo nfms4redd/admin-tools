@@ -4,6 +4,7 @@ import argparse
 import portal
 
 parser = argparse.ArgumentParser(description='Modify layer in layers.json')
+parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the layer to be modified", required=True)
 parser.add_argument('--url', help="Change the url of the WMS server")
 parser.add_argument('--wmsname', help="Change the name of the layer in the WMS server")
@@ -19,7 +20,7 @@ if args.start_visible and args.start_invisible:
   print "Cannot set both --start-visible and --start-invisible in the same call"
   exit(1)
 
-root = portal.readPortalRoot()
+root = portal.readPortalRoot(args.file)
 layerId = args.id
 layer = portal.findLayerById(root["portalLayers"], layerId)
 wmsLayer = portal.findLayerById(root["wmsLayers"], "wms-" + layerId)
@@ -48,5 +49,5 @@ if args.queryable is not None:
 if args.not_queryable is not None:
   layer["queryable"] = False
 
-portal.writePortalRoot(root)
+portal.writePortalRoot(root, args.file)
 

@@ -1,11 +1,11 @@
 import json
 
-def readPortalRoot():
-  with open("layers.json", "r") as file:
+def readPortalRoot(path):
+  with open(path, "r") as file:
     return json.load(file)
 
-def writePortalRoot(root):
-  with open("layers.json", "w") as file:
+def writePortalRoot(root, path):
+  with open(path, "w") as file:
     json.dump(root, file, indent=4)
 
 def findLayerById(list, id):

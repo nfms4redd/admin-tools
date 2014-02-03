@@ -5,6 +5,7 @@ import portal
 import json
 
 parser = argparse.ArgumentParser(description='Manage groups in layers.json')
+parser.add_argument("--file", help="Path to the layers.json file", default="/var/layers.json", nargs='?')
 parser.add_argument('--id', help="Id of the group to manage", required=True)
 parser.add_argument('--label', help="Change the label of the group")
 parser.add_argument('--parent', help="Change the parent of the group (root for no parent)")
@@ -16,7 +17,7 @@ if (args.label is None and args.parent is None):
   exit(1)
 groupId = args.id
 
-root = portal.readPortalRoot()
+root = portal.readPortalRoot(args.file)
 
 group = portal.findGroupById(root, groupId)
 if args.parent is not None:
@@ -37,5 +38,5 @@ if args.label is not None:
     exit(1)
   group["label"] = args.label
 
-portal.writePortalRoot(root)
+portal.writePortalRoot(root, args.file)
 
