@@ -15,27 +15,26 @@ args = parser.parse_args()
 if (args.label is None and args.parent is None):
   print "Either --label or --parent has to be specified"
   exit(1)
+
 groupId = args.id
-
 root = portal.readPortalRoot(args.file)
-
 group = portal.findGroupById(root, groupId)
+
+if group is None:
+    print "No such group: " + groupId
+    exit(1)
+
 if args.parent is not None:
   newParent = portal.findGroupById(root, args.parent)
   if newParent is None:
     print "Cannot find the group: " + args.parent
     exit(1)
-  if group is None:
-    group = { "id": groupId, "label": "no name", "items":[]}
   oldParent = portal.findGroupParent(root, groupId)
   if oldParent is not None:
     oldParent["items"].remove(group)
   newParent["items"].append(group)
  
 if args.label is not None:
-  if group is None:
-    print "No such group: " + groupId
-    exit(1)
   group["label"] = args.label
 
 portal.writePortalRoot(root, args.file)

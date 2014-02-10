@@ -32,12 +32,17 @@ root = portal.readPortalRoot(args.file)
 wmsLayerId = "wms-" + layerId
 
 wmsLayer = findByIdOrCreate(root["wmsLayers"], wmsLayerId)
+portalLayer = findByIdOrCreate(root["portalLayers"], layerId)
+
+if wmsLayer is not None or portalLayer is not None:
+  print "Layer already exists: " + layerId
+  exit(1)
+
 wmsLayer["baseUrl"] = baseUrl
 wmsLayer["wmsName"] = wmsName
 wmsLayer["visible"] = True
 wmsLayer["id"] = wmsLayerId
 
-portalLayer = findByIdOrCreate(root["portalLayers"], layerId)
 portalLayer["label"] = label
 portalLayer["layers"] = [wmsLayerId]
 portalLayer["id"] = layerId

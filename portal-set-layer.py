@@ -28,6 +28,10 @@ layerId = args.id
 layer = portal.findLayerById(root["portalLayers"], layerId)
 wmsLayer = portal.findLayerById(root["wmsLayers"], "wms-" + layerId)
 
+if layer is None or wmsLayer is None:
+  print "No such layer: " + layerId
+  exit(1)
+
 if args.group is not None:
   portal.setLayerInGroup(root, args.group, layerId)
 
