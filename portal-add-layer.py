@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys
 import portal
@@ -11,13 +12,13 @@ def findByIdOrCreate(list, id):
     list.append(ret)
   return ret
 
-parser = argparse.ArgumentParser(description='Modify layer in layers.json')
-parser.add_argument("--file", help="Path to the layers.json file (default /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
-parser.add_argument('--id', help="Id of the layer to be modified", required=True)
-parser.add_argument('--url', help="URL of the GeoServer layer", required=True)
-parser.add_argument('--wmsname', help="Name of the layer in geoserver", required=True)
-parser.add_argument('--label', help="Name of the layer", required=True)
-parser.add_argument('--group', help="Group the layer is to be added", required=True)
+parser = argparse.ArgumentParser(description='Añade una nueva capa al fichero layers.json')
+parser.add_argument("--file", help="Ruta al fichero layers.json file (por defecto /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
+parser.add_argument('--id', help="Identificador de la nueva capa", required=True)
+parser.add_argument('--url', help="URL de la capa de GeoServer", required=True)
+parser.add_argument('--wmsname', help="Nombre de la capa en GeoServer", required=True)
+parser.add_argument('--label', help="Nombre de la nueva capa", required=True)
+parser.add_argument('--group', help="Grupo donde se creará la nueva capa", required=True)
 
 args = parser.parse_args()
 
@@ -35,7 +36,7 @@ wmsLayer = findByIdOrCreate(root["wmsLayers"], wmsLayerId)
 portalLayer = findByIdOrCreate(root["portalLayers"], layerId)
 
 if wmsLayer is not None or portalLayer is not None:
-  print "Layer already exists: " + layerId
+  print "Ya existe una capa con ese identificador: " + layerId
   exit(1)
 
 wmsLayer["baseUrl"] = baseUrl
