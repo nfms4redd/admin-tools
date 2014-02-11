@@ -14,7 +14,7 @@ while read line; do
 		continue
 	fi
 
-	output=`./add-layer.sh --layer $line --workspace $workspace --datastore $datastore`
+	output=`add-layer.sh --layer $line --workspace $workspace --datastore $datastore`
 	echo "### LOG ### $output" >> /tmp/gsload.log
 done
 cat /tmp/gsload.log | grep \#\#\#
