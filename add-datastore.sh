@@ -1,17 +1,19 @@
 set -e
 
+source default.sh
+
 getoptString='host:,port:,database:,schema:,password:,workspace:,datastore:'
 
 help="Añade un nuevo almacén de datos a GeoServer a partir de una base de datos PostGIS.
 
 Opciones:
-	--host		Servidor de la base de datos PostGIS
-	--port		Puerto de la base de datos PostGIS
-	--database	Nombre de la base de datos que contiene el esquema a añadir
-	--schema	Esquema de PostGIS que se añadirá como almacén de datos
-	--password	Contraseña del usuario 'geoserver' en la base de datos PostGIS
-	--workspace	Espacio de trabajo de GeoServer donde se añadirá el almacén de datos
-	--datastore	Nombre del almacén de datos que se creará en GeoServer"
+	--host		Servidor de la base de datos PostGIS. Valor por defecto: $host
+	--port		Puerto de la base de datos PostGIS. Valor por defecto: $port
+	--database	Nombre de la base de datos que contiene el esquema a añadir. Valor por defecto: $databasename
+	--schema	Esquema de PostGIS que se añadirá como almacén de datos. Valor por defecto: $schema
+	--password	Contraseña del usuario 'geoserver' en la base de datos PostGIS.
+	--workspace	Espacio de trabajo de GeoServer donde se añadirá el almacén de datos. Valor por defecto: $workspace
+	--datastore	Nombre del almacén de datos que se creará en GeoServer. Valor por defecto: $datastore"
 
 source parse.sh
 

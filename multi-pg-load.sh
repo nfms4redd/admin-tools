@@ -1,13 +1,15 @@
+source default.sh
+
 getoptString='crs:,schema:,encoding:,database:,files:,folder:'
 
 help="Añade varios ficheros .shp como tablas en PostGIS.
 
 Opciones:
 	--crs		Sistema de referencia del fichero .shp
-	--schema	Esquema de la base de datos donde se añadirán las tablas
-	--encoding	Codificación de caracteres de los ficheros .dbf
-	--database	Base de datos que contiene el esquema donde se añadirán las tablas
-	--files		Expresión para filtrar los ficheros (por defecto '*.shp')
+	--schema	Esquema de la base de datos donde se añadirán las tablas. Valor por defecto: $schema
+	--encoding	Codificación de caracteres de los ficheros .dbf. Valor por defecto: $encoding
+	--database	Base de datos que contiene el esquema donde se añadirán las tablas. Valor por defecto: $databasename
+	--files		Expresión para filtrar los ficheros. Valor por defecto: $files
 	--folder	Directorio que contiene los ficheros a añadir. Los ficheros pueden estar en cualquier subdirectorio dentro del directorio especificado"
 
 source pg-parse.sh

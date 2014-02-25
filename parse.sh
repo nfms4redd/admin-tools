@@ -1,12 +1,3 @@
-schema=nfms
-encoding=UTF8
-databasename=geoserverdata
-files=*.shp
-host=localhost
-port=5432
-workspace=nfms
-datastore=geoserverdata
-
 getoptString=${getoptString},help
 args=`getopt -o "" --long "$getoptString" -n "$0" -- "$@"`
 if [ $? != 0 ] ; then exit 1 ; fi

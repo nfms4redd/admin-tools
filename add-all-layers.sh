@@ -1,14 +1,16 @@
 set -e
 
+source default.sh
+
 getoptString='schema:,database:,datastore:,workspace:'
 
 help="Añade a GeoServer todas las tablas de un esquema de una base de datos PostGIS
 
 Opciones:
-	--schema	Esquema que se añadirá a GeoServer
-	--database	Base de datos que contiene el esquema a añadir
-	--datastore	El almacén de datos que contiene las capas a añadir
-	--workspace	El espacio de trabajo donde está el almacén de datos"
+	--schema	Esquema que se añadirá a GeoServer. Valor por defecto: $schema
+	--database	Base de datos que contiene el esquema a añadir. Valor por defecto: $databasename
+	--datastore	El almacén de datos que contiene las capas a añadir. Valor por defecto: $datastore
+	--workspace	El espacio de trabajo donde está el almacén de datos. Valor por defecto: $workspace"
 
 source parse.sh
 
