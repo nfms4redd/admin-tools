@@ -5,11 +5,15 @@ import sys
 import portal
 import argparse
 
-def findByIdOrCreate(list, id):
+def create(list, id):
   ret = portal.findLayerById(list, id)
-  if ret is None:
-    ret = {}
-    list.append(ret)
+
+  if ret is not None:
+    print "Ya existe una capa con ese identificador: " + layerId
+    exit(1)
+
+  ret = {}
+  list.append(ret)
   return ret
 
 parser = argparse.ArgumentParser(description='Añade una nueva capa al fichero layers.json')
@@ -32,12 +36,8 @@ root = portal.readPortalRoot(args.file)
 
 wmsLayerId = "wms-" + layerId
 
-wmsLayer = findByIdOrCreate(root["wmsLayers"], wmsLayerId)
-portalLayer = findByIdOrCreate(root["portalLayers"], layerId)
-
-if wmsLayer is not None or portalLayer is not None:
-  print "Ya existe una capa con ese identificador: " + layerId
-  exit(1)
+wmsLayer = create(root["wmsLayers"], wmsLayerId)
+portalLayer = create(root["portalLayers"], layerId)
 
 wmsLayer["baseUrl"] = baseUrl
 wmsLayer["wmsName"] = wmsName
