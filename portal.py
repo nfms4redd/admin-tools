@@ -50,7 +50,7 @@ def findGroupRecursive(currentGroup, check):
 def setLayerInGroup(root, groupId, layerId):
   group = findGroupById(root, groupId)
   if (group is None):
-    print "No such group: " + groupId
+    print "No existe el grupo: " + groupId
   else:
     currentGroup = findGroupContainingLayer(root, layerId)
     if (currentGroup is not None):
