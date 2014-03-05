@@ -18,6 +18,10 @@ if not group:
   print "No se ha podido encontrar el grupo: " + args.id
   exit(1)
 
+if len(group.get("items")) > 0:
+  print "El grupo debe de estar vacío para poder eliminarlo: " + args.id
+  exit(1)
+
 parent.get("items").remove(group)
 
 portal.writePortalRoot(root, args.file)
