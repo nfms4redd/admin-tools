@@ -10,21 +10,20 @@ parser.add_argument("--file", help="Ruta al fichero layers.json file (por defect
 parser.add_argument('--id', help="Identificador de la capa a eliminar", required=True)
 args = parser.parse_args()
 
-layerId = args.id;
-wmsLayerId = "wms-" + layerId
-
 root = portal.readPortalRoot(args.file)
+portalLayer = portal.findLayerById(root["portalLayers"], args.id)
 
-wmsLayer = portal.findLayerById(root["wmsLayers"], wmsLayerId)
-if wmsLayer is not None:
-  root["wmsLayers"].remove(wmsLayer);
+if not portalLayer:
+  print "No existe la capa: " + args.id
+  exit(1)
 
-portalLayer = portal.findLayerById(root["portalLayers"], layerId)
-if portalLayer is not None:
-  root["portalLayers"].remove(portalLayer);
+mapLayers = portal.findMapLayers(root, portalLayer)
+for layer in mapLayers:
+  root["wmsLayers"].remove(layer);
+root["portalLayers"].remove(portalLayer);
 
 group = portal.findGroupContainingLayer(root, layerId)
-if (group is not None):
+if group:
   group.get("items").remove(layerId)
 
 portal.writePortalRoot(root, args.file)
