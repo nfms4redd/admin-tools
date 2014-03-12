@@ -9,8 +9,9 @@ def showGroupItems(root, items, indent):
   for item in items:
     if isinstance(item, basestring):
       portalLayer = portal.findLayerById(root["portalLayers"], item)
-      mapLayers = portalLayer["layers"]
-      print('\t' * indent + item + " (" + ", ".join(mapLayers) + ")")
+      if portalLayer:
+        mapLayers = portalLayer["layers"]
+        print('\t' * indent + item + " (" + ", ".join(mapLayers) + ")")
     else:
       print('\t' * indent + item.get("id"))
       showGroupItems(root, item.get("items"), indent+1)
