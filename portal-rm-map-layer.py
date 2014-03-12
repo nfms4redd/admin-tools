@@ -27,7 +27,7 @@ for portalLayer in portalLayers:
     if len(layers) > 1:
       layers.remove(args.id)
     else:
-      print "No se puede eliminar la capa de mapa. La capa de portal '" + portalLayer.id + "' no tiene otra capa de mapa asociada."
+      print "No se puede eliminar la capa de mapa. La capa de portal '" + portalLayer["id"] + "' no tiene otra capa de mapa asociada."
       exit(1)
 
 root["wmsLayers"].remove(mapLayer)
