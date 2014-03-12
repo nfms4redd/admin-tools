@@ -40,7 +40,7 @@ class Test(abstract_test.AbstractTest):
               "--group", "base")
 
     root = portal.readPortalRoot(self.testFile)
-    mapLayer = portal.findLayerById(root["wmsLayers"], "wms-newlayer")
+    mapLayer = portal.findLayerById(root["wmsLayers"], "map-newlayer")
     portalLayer = portal.findLayerById(root["portalLayers"], "newlayer")
     group = portal.findGroupById(root, "base")
 

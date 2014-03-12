@@ -32,18 +32,18 @@ if not portal.findGroupById(root, args.group):
   print "No se ha encontrado el grupo: " + args.group
   exit(1)
 
-wmsLayerId = "wms-" + args.id
-wmsLayer = create(root["wmsLayers"], wmsLayerId)
+mapLayerId = "map-" + args.id
+mapLayer = create(root["wmsLayers"], mapLayerId)
 portalLayer = create(root["portalLayers"], args.id)
 
-wmsLayer["baseUrl"] = args.url
-wmsLayer["wmsName"] = args.wmsName
-wmsLayer["visible"] = True
-wmsLayer["label"] = args.label
-wmsLayer["id"] = wmsLayerId
+mapLayer["baseUrl"] = args.url
+mapLayer["wmsName"] = args.wmsName
+mapLayer["visible"] = True
+mapLayer["label"] = args.label
+mapLayer["id"] = mapLayerId
 
 portalLayer["label"] = args.label
-portalLayer["layers"] = [wmsLayerId]
+portalLayer["layers"] = [mapLayerId]
 portalLayer["id"] = args.id
 
 portal.setLayerInGroup(root, args.group, args.id)
