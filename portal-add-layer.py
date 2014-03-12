@@ -20,34 +20,32 @@ parser = argparse.ArgumentParser(description='Añade una nueva capa al fichero l
 parser.add_argument("--file", help="Ruta al fichero layers.json file (por defecto /var/portal/layers.json)", default="/var/portal/layers.json", nargs='?')
 parser.add_argument('--id', help="Identificador de la nueva capa", required=True)
 parser.add_argument('--url', help="URL de la capa de GeoServer", required=True)
-parser.add_argument('--wmsname', help="Nombre de la capa en GeoServer", required=True)
+parser.add_argument('--wmsName', help="Nombre de la capa en GeoServer", required=True)
 parser.add_argument('--label', help="Nombre de la nueva capa", required=True)
 parser.add_argument('--group', help="Grupo donde se creará la nueva capa", required=True)
 
 args = parser.parse_args()
 
-layerId = args.id
-baseUrl = args.url
-wmsName = args.wmsname
-label = args.label
-groupId = args.group
-
 root = portal.readPortalRoot(args.file)
 
-wmsLayerId = "wms-" + layerId
+if not portal.findGroupById(root, args.group):
+  print "No se ha encontrado el grupo: " + args.group
+  exit(1)
 
+wmsLayerId = "wms-" + args.id
 wmsLayer = create(root["wmsLayers"], wmsLayerId)
-portalLayer = create(root["portalLayers"], layerId)
+portalLayer = create(root["portalLayers"], args.id)
 
-wmsLayer["baseUrl"] = baseUrl
-wmsLayer["wmsName"] = wmsName
+wmsLayer["baseUrl"] = args.url
+wmsLayer["wmsName"] = args.wmsName
 wmsLayer["visible"] = True
+wmsLayer["label"] = args.label
 wmsLayer["id"] = wmsLayerId
 
-portalLayer["label"] = label
+portalLayer["label"] = args.label
 portalLayer["layers"] = [wmsLayerId]
-portalLayer["id"] = layerId
+portalLayer["id"] = args.id
 
-portal.setLayerInGroup(root, groupId, layerId)
+portal.setLayerInGroup(root, args.group, args.id)
 
 portal.writePortalRoot(root, args.file)

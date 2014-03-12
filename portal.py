@@ -1,4 +1,18 @@
 import json
+import shutil
+import os
+
+def getLocalizedDir(layersJson, lang, subDirectory):
+  base = os.path.dirname(layersJson)
+  directory = os.path.join(base, 'static', 'loc', lang, subDirectory)
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+  return directory
+
+def _updateInlineUrl(portalLayer, mapLayer , url, wmsName):
+  portalLayer["inlineLegendUrl"] = (url + "?REQUEST=GetLegendGraphic&" +
+            "VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" +
+            wmsName + "&TRANSPARENT=true")
 
 def readPortalRoot(path):
   with open(path, "r") as file:
@@ -56,4 +70,73 @@ def setLayerInGroup(root, groupId, layerId):
     if (currentGroup is not None):
       currentGroup.get("items").remove(layerId)
     group.get("items").append(layerId)
+
+def findMapLayers(root, portalLayer):
+  ret = []
+  mapLayers = root["wmsLayers"]
+  for mapLayerId in portalLayer["layers"]:
+    ret.append(findLayerById(mapLayers, mapLayerId))
+  return ret
+
+def checkMapLayerArgs(args):
+  if args.queryable and args.not_queryable:
+    print "No se pueden especificar las opciones --queryable y --not-queryable a la vez"
+    exit(1)
+  if args.hidden and args.not_hidden:
+    print "No se pueden especificar las opciones --hidden y --not-hidden a la vez"
+    exit(1)
+  if args.legend:
+    if not args.lang:
+      print "Es necesario especificar el idioma de la leyenda (--lang)"
+      exit(1)
+    if not os.path.isfile(args.legend):
+      print "El fichero de la leyenda no existe: " + args.legend
+      exit(1)
+
+def updateMapLayer(layer, mapLayer, args):
+  if args.label is not None:
+    mapLayer["label"] = args.label
+
+  if args.imageFormat:
+    mapLayer["imageFormat"] = args.imageFormat
+
+  if args.sourceLabel:
+    mapLayer["sourceLabel"] = args.sourceLabel
+
+  if args.sourceLink:
+    mapLayer["sourceLink"] = args.sourceLink
+
+  if args.wmsTime:
+    mapLayer["wmsTime"] = args.wmsTime
+
+  if args.wmsName:
+    mapLayer["wmsName"] = args.wmsName
+    if layer:
+      _updateInlineUrl(layer, mapLayer, mapLayer["baseUrl"], args.wmsName)
+
+  if args.url is not None:
+    mapLayer["baseUrl"] = args.url
+    if layer:
+      _updateInlineUrl(layer, mapLayer, args.url, mapLayer["wmsName"])
+
+  if args.queryable:
+    mapLayer["queryable"] = True
+
+  if args.not_queryable:
+    mapLayer["queryable"] = False
+
+  if args.hidden:
+    mapLayer["visible"] = False
+
+  if args.not_hidden:
+    mapLayer["visible"] = True
+
+  if args.legend:
+    directory = getLocalizedDir(args.file, args.lang, 'images')
+    _, extension = os.path.splitext(args.legend)
+    filename = mapLayer["id"] + extension
+    shutil.copyfile(args.legend, os.path.join(directory, filename))
+    mapLayer["legend"] = filename
+
+  return mapLayer
 

@@ -22,8 +22,8 @@ for layer in mapLayers:
   root["wmsLayers"].remove(layer);
 root["portalLayers"].remove(portalLayer);
 
-group = portal.findGroupContainingLayer(root, layerId)
+group = portal.findGroupContainingLayer(root, args.id)
 if group:
-  group.get("items").remove(layerId)
+  group.get("items").remove(args.id)
 
 portal.writePortalRoot(root, args.file)
