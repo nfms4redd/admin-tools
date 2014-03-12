@@ -4,13 +4,16 @@ source default.sh
 
 getoptString='crs:,schema:,encoding:,database:,file:'
 
-help="Carga un fichero .shp como una tabla de PostGIS.
+help="uso: `basename $0` --crs CRS [--schema SCHEMA] [--database DATABASE]
+		[--encoding ENCODING] --file FILE
+
+Carga un fichero .shp como una tabla de PostGIS.
 
 Opciones:
 	--crs		Sistema de coordenadas del fichero .shp
 	--schema	Esquema donde se añadirá la nueva tabla. Valor por defecto: $schema
-	--encoding	Codificación de caracteres del fichero .dbf. Valor por defecto: $encoding
 	--database	Base de datos que contiene al esquema donde se añadirá la nueva tabla. Valor por defecto: $databasename
+	--encoding	Codificación de caracteres del fichero .dbf. Valor por defecto: $encoding
 	--file		Fichero .shp a añadir"
 
 source pg-parse.sh

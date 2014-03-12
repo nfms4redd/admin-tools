@@ -4,8 +4,10 @@ source default.sh
 
 getoptString='layer:,datastore:,workspace:'
 
-help="Añade una nueva capa a GeoServer a partir de una tabla de PostGIS.
-El esquema que contiene la tabla debe haber sido añadido anteriormente con el comando 'add-datastore'.
+help="uso: `basename $0` --layer LAYER [--workspace WORKSPACE] [--datastore DATASTORE]
+
+Añade una nueva capa a GeoServer a partir de una tabla de PostGIS.
+El esquema que contiene la tabla debe haber sido añadido anteriormente a GeoServer como un datastore.
 
 Opciones:
 	--layer		Tabla que se añadirá a GeoServer.

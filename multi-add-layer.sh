@@ -2,7 +2,9 @@ source default.sh
 
 getoptString='datastore:,workspace:'
 
-help="Añade varias capas a GeoServer, especificándolas una a una. Pulsar Ctrl+D para terminar de añadir capas.
+help="uso: `basename $0` [--datastore DATASTORE] [--workspace WORKSPACE]
+
+Añade varias capas a GeoServer, especificándolas una a una. Pulsar Ctrl+D para terminar de añadir capas.
 
 Opciones:
 	--datastore	El almacén de datos que contiene las capas a añadir. Valor por defecto: $datastore

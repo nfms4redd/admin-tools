@@ -2,7 +2,10 @@ source default.sh
 
 getoptString='crs:,schema:,encoding:,database:,files:,folder:'
 
-help="Añade varios ficheros .shp como tablas en PostGIS.
+help="uso: `basename $0` --crs CRS [--schema SCHEMA] [--encoding ENCODING]
+		[--database DATABASE] [--files FILES] --folder FOLDER
+
+Añade varios ficheros .shp como tablas en PostGIS.
 
 Opciones:
 	--crs		Sistema de referencia del fichero .shp

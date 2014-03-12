@@ -4,7 +4,11 @@ source default.sh
 
 getoptString='host:,port:,database:,schema:,password:,workspace:,datastore:'
 
-help="Añade un nuevo almacén de datos a GeoServer a partir de una base de datos PostGIS.
+help="uso: `basename $0` [--host HOST] [--port PORT]
+		[--database DATABASE] [--schema SCHEMA] --password PASSWORD
+		[--workspace WORKSPACE] [--datastore DATASTORE]
+
+Añade un nuevo almacén de datos a GeoServer a partir de una base de datos PostGIS.
 
 Opciones:
 	--host		Servidor de la base de datos PostGIS. Valor por defecto: $host

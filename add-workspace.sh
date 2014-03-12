@@ -4,7 +4,9 @@ source default.sh
 
 getoptString='workspace:'
 
-help="Crea un nuevo espacio de trabajo en GeoServer con el nombre especificado.
+help="uso: `basename $0` [--workspace WORKSPACE]
+
+Crea un nuevo espacio de trabajo en GeoServer con el nombre especificado.
 
 Opciones:
 	--workspace 	Nombre del espacio de trabajo que se creará. Valor por defecto: $workspace"
