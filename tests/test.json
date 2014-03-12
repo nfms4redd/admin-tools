@@ -1,0 +1,137 @@
+{
+    "wmsLayers": [
+        {
+            "sourceLabel": "FACET", 
+            "sourceLink": "http://osfac.net/facet.html", 
+            "baseUrl": "http://demo1.geo-solutions.it/diss_geoserver/gwc/service/wms", 
+            "label": "${facet_forest_classification}", 
+            "visible": true, 
+            "legend": "forest_classification.png", 
+            "imageFormat": "image/png8", 
+            "wmsName": "unredd:drc_forest_classification", 
+            "id": "forestClassification"
+        }, 
+        {
+            "sourceLabel": "FACET", 
+            "sourceLink": "http://osfac.net/facet.html", 
+            "baseUrl": "http://demo1.geo-solutions.it/diss_geoserver/gwc/service/wms", 
+            "label": "${facet_forest_classification2}", 
+            "visible": true, 
+            "legend": "forest_classification2.png", 
+            "imageFormat": "image/png8", 
+            "wmsName": "unredd:drc_forest_classification2", 
+            "id": "forestClassification2"
+        }, 
+        {
+            "sourceLabel": "FACET", 
+            "sourceLink": "http://osfac.net/facet.html", 
+            "baseUrl": "http://demo1.geo-solutions.it/diss_geoserver/wms", 
+            "label": "${forest_mask}", 
+            "visible": true, 
+            "legend": "forest_mask.png", 
+            "imageFormat": "image/png8", 
+            "wmsName": "unredd:drc_forest_mask_mosaic", 
+            "id": "forest_mask"
+        }, 
+        {
+            "sourceLabel": "WRI", 
+            "sourceLink": "http://www.wri.org/publication/interactive-forest-atlas-democratic-republic-of-congo", 
+            "baseUrl": "http://demo1.geo-solutions.it/diss_geoserver/wms", 
+            "queryable": true, 
+            "visible": true, 
+            "imageFormat": "image/png8", 
+            "wmsName": "unredd:drc_boundary", 
+            "id": "countryBoundaries"
+        }, 
+        {
+            "sourceLabel": "WRI", 
+            "sourceLink": "http://www.wri.org/publication/interactive-forest-atlas-democratic-republic-of-congo", 
+            "baseUrl": "http://demo1.geo-solutions.it/diss_geoserver/wms", 
+            "queryable": true, 
+            "visible": true, 
+            "imageFormat": "image/png8", 
+            "wmsName": "unredd:drc_provinces", 
+            "wmsTime": "2007-03-01T00:00,2008-05-11T00:00,2005-03-01T00:00", 
+            "id": "provinces"
+        }
+    ], 
+    "portalLayers": [
+        {
+            "active": true, 
+            "layers": [
+                "forestClassification", 
+                "forestClassification2"
+            ], 
+            "id": "forestClassification", 
+            "infoFile": "forest_classification_def.html", 
+            "label": "${facet_forest_classification}"
+        }, 
+        {
+            "layers": [
+                "forest_mask"
+            ], 
+            "id": "forest_mask", 
+            "label": "${forest_mask}"
+        }, 
+        {
+            "active": true, 
+            "layers": [
+                "countryBoundaries"
+            ], 
+            "id": "countryBoundaries", 
+            "inlineLegendUrl": "http://demo1.geo-solutions.it/diss_geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=unredd:drc_boundary&TRANSPARENT=true", 
+            "label": "${country_boundaries}"
+        }, 
+        {
+            "layers": [
+                "provinces"
+            ], 
+            "label": "${provinces}", 
+            "inlineLegendUrl": "http://demo1.geo-solutions.it/diss_geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=unredd:drc_provinces&TRANSPARENT=true", 
+            "infoFile": "provinces_def.html", 
+            "active": true, 
+            "id": "provinces"
+        }
+    ], 
+    "groups": [
+        {
+            "items": [
+                {
+                    "items": [], 
+                    "id": "innerbase", 
+                    "label": "General purpose"
+                }, 
+                {
+                    "items": [
+                        "forestClassification"
+                    ], 
+                    "id": "innerforest", 
+                    "label": "Forest classifications"
+                }
+            ], 
+            "id": "base", 
+            "infoFile": "base_layers.html", 
+            "label": "${base_layers}"
+        }, 
+        {
+            "items": [
+                "countryBoundaries", 
+                "provinces"
+            ], 
+            "id": "admin", 
+            "label": "${admin_areas}"
+        }, 
+        {
+            "items": [
+                "forest_mask"
+            ], 
+            "id": "landcover", 
+            "label": "${land_cover_maps}"
+        }, 
+        {
+            "items": [], 
+            "id": "emptygroup", 
+            "label": "Empty group"
+        }
+    ]
+}
