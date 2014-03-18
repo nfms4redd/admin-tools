@@ -35,5 +35,6 @@ ids = map(lambda layer : layer["id"], mapLayers)
 print "\n"
 print "MAP LAYER ORDER"
 print "==============="
+ids.reverse()
 for i in range(len(ids)):
   print str(i + 1) + ". " + ids[i]
