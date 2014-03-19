@@ -110,6 +110,17 @@ class Test(abstract_test.AbstractTest):
   def testConflictHiddenArgs(self):
     self.callError("--id", "blue-marble", "--hidden", "--not-hidden")
 
+  def testInvalidOrder(self):
+    self.callError("--id", "blue-marble", "--order", "0")
+    self.callError("--id", "blue-marble", "--order", "-1")
+    self.callError("--id", "blue-marble", "--order", "10")
+
+  def testChangeOrder(self):
+    self.call("--id", "blue-marble", "--order", "1");
+    root = portal.readPortalRoot(self.testFile)
+    mapLayers = root["wmsLayers"]
+    self.assertEquals("blue-marble", mapLayers[len(mapLayers) - 1]["id"])
+
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

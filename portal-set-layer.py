@@ -26,6 +26,7 @@ parser.add_argument('--not-queryable', help="Hace que la capa no se pueda consul
 parser.add_argument('--hidden', help="Hace que la capa no se muestre nunca ni en el mapa ni en el árbol de capas", action="store_true")
 parser.add_argument('--not-hidden', help="Hace que la capa se pueda mostrar y ocultar", action="store_true")
 parser.add_argument('--group', help="Identificador del nuevo grupo de la capa")
+parser.add_argument('--order', help="Orden de la capa para el dibujado", type=int)
 
 args = parser.parse_args()
 
@@ -40,10 +41,12 @@ if args.infoFile:
   if not os.path.isfile(args.infoFile):
     print "El fichero de información no existe: " + args.legend
     exit(1)
-portal.checkMapLayerArgs(args)
+
+root = portal.readPortalRoot(args.file)
+
+portal.checkMapLayerArgs(args, root)
 
 # Get layer and mapLayer
-root = portal.readPortalRoot(args.file)
 layerId = args.id
 layer = portal.findLayerById(root["portalLayers"], layerId)
 
@@ -83,7 +86,7 @@ if args.infoFile:
   layer["infoFile"] = filename
 
 if mapLayer:
-  mapLayer = portal.updateMapLayer(layer, mapLayer, args)
+  mapLayer = portal.updateMapLayer(layer, mapLayer, args, root)
 
 portal.writePortalRoot(root, args.file)
 

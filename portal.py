@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import json
 import shutil
 import os
@@ -78,7 +81,7 @@ def findMapLayers(root, portalLayer):
     ret.append(findLayerById(mapLayers, mapLayerId))
   return ret
 
-def checkMapLayerArgs(args):
+def checkMapLayerArgs(args, root):
   if args.queryable and args.not_queryable:
     print "No se pueden especificar las opciones --queryable y --not-queryable a la vez"
     exit(1)
@@ -93,7 +96,13 @@ def checkMapLayerArgs(args):
       print "El fichero de la leyenda no existe: " + args.legend
       exit(1)
 
-def updateMapLayer(layer, mapLayer, args):
+  if args.order is not None:
+    nLayers = len(root["wmsLayers"])
+    if args.order < 1 or args.order > nLayers:
+      print "El orden de la capa no es válido. Debe de estar entre 1 y " + str(nLayers)
+      exit(1)
+
+def updateMapLayer(layer, mapLayer, args, root):
   if args.label is not None:
     mapLayer["label"] = args.label
 
@@ -137,6 +146,15 @@ def updateMapLayer(layer, mapLayer, args):
     filename = mapLayer["id"] + extension
     shutil.copyfile(args.legend, os.path.join(directory, filename))
     mapLayer["legend"] = filename
+
+  if args.order:
+    mapLayers = root["wmsLayers"]
+    # Since the layers are stored in inverse order we need to transform
+    # the index provided by the user (as shown in the portal-layer-tree.py
+    # script) to the index in the layer array inside layers.json
+    arrayIndex = len(mapLayers) - args.order
+    mapLayers.remove(mapLayer)
+    mapLayers.insert(arrayIndex, mapLayer)
 
   return mapLayer
 

@@ -20,12 +20,14 @@ parser.add_argument('--queryable', help="Hace que la capa se pueda consultar", a
 parser.add_argument('--not-queryable', help="Hace que la capa no se pueda consultar", action="store_true")
 parser.add_argument('--hidden', help="Hace que la capa no se muestre nunca ni en el mapa ni en el árbol de capas", action="store_true")
 parser.add_argument('--not-hidden', help="Hace que la capa se pueda mostrar y ocultar", action="store_true")
+parser.add_argument('--order', help="Orden de la capa para el dibujado", type=int)
 
 args = parser.parse_args()
 
-portal.checkMapLayerArgs(args)
-
 root = portal.readPortalRoot(args.file)
+
+portal.checkMapLayerArgs(args, root)
+
 mapLayer = portal.findLayerById(root["wmsLayers"], args.id)
 
 if mapLayer is None:
@@ -39,6 +41,6 @@ for layer in root["portalLayers"]:
     portalLayer = layer
     break
 
-mapLayer = portal.updateMapLayer(portalLayer, mapLayer, args)
+mapLayer = portal.updateMapLayer(portalLayer, mapLayer, args, root)
 portal.writePortalRoot(root, args.file)
 
