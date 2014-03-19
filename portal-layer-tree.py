@@ -29,8 +29,11 @@ print "=========="
 print "root"
 showGroupItems(root, root["groups"], 1)
 
-mapLayers = filter(lambda layer : layer["visible"], root["wmsLayers"])
-ids = map(lambda layer : layer["id"], mapLayers)
+# Get layer identifiers only for visible layers
+ids = []
+for layer in root["wmsLayers"]:
+  if layer["visible"]:
+    ids.append(layer["id"])
 
 print "\n"
 print "MAP LAYER ORDER"
