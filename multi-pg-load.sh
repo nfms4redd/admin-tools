@@ -28,7 +28,7 @@ echo "" > /tmp/pgload.log
 for i in `find $folder -name $files`;
 do
 	echo "## CARGANDO $i ##" >> /tmp/pgload.log 
-	./pg-load.sh --crs $crs --encoding $encoding --file $i --database $databasename --schema $schema 1>> /tmp/pgload.log 2>>/tmp/pgload.log
+	pg-load.sh --crs $crs --encoding $encoding --file $i --database $databasename --schema $schema 1>> /tmp/pgload.log 2>>/tmp/pgload.log
 	if [ $? -eq 0 ]; then
 		echo "### LOG ### Cargado con exito: $i" >> /tmp/pgload.log
 	else

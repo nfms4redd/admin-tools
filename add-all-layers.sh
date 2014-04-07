@@ -17,4 +17,4 @@ Opciones:
 
 source parse.sh
 
-psql -t -U geoserver -d $databasename -c "select table_name from information_schema.tables where table_schema='"$schema"'" | sed -e "s/^\s//g" | ./multi-add-layer.sh --workspace $workspace --datastore $datastore
+psql -t -U geoserver -d $databasename -c "select table_name from information_schema.tables where table_schema='"$schema"'" | sed -e "s/^\s//g" | multi-add-layer.sh --workspace $workspace --datastore $datastore
