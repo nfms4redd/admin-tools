@@ -1,2 +1,3 @@
-*.pyc
-admin-scripts.tgz
+node_modules
+yarn-error.log
+
