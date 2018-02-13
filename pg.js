@@ -4,8 +4,9 @@
 
 const load = require('./pg-load');
 const multiload = require('./pg-multiload');
+const check = require('./pg-check');
 
-const actions = { load, multiload };
+const actions = { load, multiload, check };
 const { Pool } = require('pg');
 const pool = new Pool();
 
