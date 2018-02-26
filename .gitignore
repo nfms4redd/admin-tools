@@ -1,2 +1,5 @@
 *.pyc
-admin-scripts.tgz
+env
+docs/build
+__pycache__
+*.egg-info
