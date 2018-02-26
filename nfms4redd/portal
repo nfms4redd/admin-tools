@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+
+import argparse
+import sys
+from nfms4redd import groups
+
+
+actions = {
+    'groups': groups
+}
+
+parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
+
+subparsers = parser.add_subparsers(title='Comandos', dest='cmd')
+
+for key in actions:
+    subparser = subparsers.add_parser(key, help=actions[key].HELP)
+    actions[key].configure_parser(subparser)
+
+args = parser.parse_args()
+if not args.cmd:
+    parser.print_help()
+else:
+    try:
+        actions[args.cmd].run(args)
+    except Exception as e:
+        print(e, file=sys.stderr)
