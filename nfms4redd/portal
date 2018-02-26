@@ -18,11 +18,12 @@ for key in actions:
     subparser = subparsers.add_parser(key, help=actions[key].HELP)
     actions[key].configure_parser(subparser)
 
-args = parser.parse_args()
-if not args.cmd:
-    parser.print_help()
-else:
-    try:
-        actions[args.cmd].run(args)
-    except Exception as e:
-        print(e, file=sys.stderr)
+if __name__ == "__main__":
+    args = parser.parse_args()
+    if not args.cmd:
+        parser.print_help()
+    else:
+        try:
+            actions[args.cmd].run(args)
+        except Exception as e:
+            print(e, file=sys.stderr)
