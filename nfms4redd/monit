@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+
+import argparse
+import sys
+import requests
+from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+
+parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
+parser.add_argument('-u', '--url', required=True, help='URL del servicio WMS')
+
+TEMPLATE = '''CHECK HOST $layername WITH ADDRESS $server
+    if failed
+    port 80
+    protocol http
+    status 200
+    request "$appUrlREQUEST=GetFeatureInfo&EXCEPTIONS=application/vnd.ogc.se_xml&BBOX=$minx,$miny,$maxx, $maxy&SERVICE=WMS&INFO_FORMAT=text/html&QUERY_LAYERS=$layername&FEATURE_COUNT=999999&Layers=$layername&WIDTH=1&HEIGHT=1&format=image/png&styles=&srs=EPSG:4326&version=1.1.1&x=0&y=0"
+    content != "<ServiceException>"
+then alert'''
+
+
+def generate(url):
+    print('Downloading GetCapabilities: ' + url, file=sys.stderr)
+
+    parsed = urlparse(url)
+    appUrl = parsed.path + "?"
+    if parsed.query:
+        appUrl = appUrl + parsed.query + "&"
+    capabilities = requests.get(url, {
+        'SERVICE': 'WMS',
+        'REQUEST': 'GetCapabilities'
+    })
+    root = ET.fromstring(capabilities.text)
+    layers = root.findall(
+        '{http://www.opengis.net/wms}Capability/{http://www.opengis.net/wms}Layer/{http://www.opengis.net/wms}Layer')
+    for layer in layers:
+        bbox = layer.findall(
+            "{http://www.opengis.net/wms}BoundingBox[@CRS='EPSG:4326']")
+        if len(bbox) == 0:
+            continue
+        else:
+            bbox = bbox[0]
+
+        layerTemplate = TEMPLATE
+        layerTemplate = layerTemplate.replace(
+            "$layername", layer.find("{http://www.opengis.net/wms}Name").text)
+        layerTemplate = layerTemplate.replace(
+            "$server", parsed.scheme + "://" + parsed.netloc)
+        layerTemplate = layerTemplate.replace("$appUrl", appUrl)
+        layerTemplate = layerTemplate.replace("$minx", bbox.attrib["minx"])
+        layerTemplate = layerTemplate.replace("$miny", bbox.attrib["miny"])
+        layerTemplate = layerTemplate.replace("$maxx", bbox.attrib["maxx"])
+        layerTemplate = layerTemplate.replace("$maxy", bbox.attrib["maxy"])
+
+        print(layerTemplate)
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    generate(args.url)

@@ -1,6 +1,8 @@
 NFMS4REDD Admin Tools
 =====================
 
+Portal
+------
 .. toctree::
    :maxdepth: 2
 
@@ -12,3 +14,11 @@ NFMS4REDD Admin Tools
    :maxdepth: 1
 
    tree
+
+Monit
+-----
+
+.. toctree::
+   :maxdepth: 1
+
+   monit
