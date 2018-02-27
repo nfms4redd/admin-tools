@@ -5,3 +5,4 @@ NFMS4REDD Admin Tools
    :maxdepth: 2
 
    groups
+   portal-layers

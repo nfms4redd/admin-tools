@@ -3,11 +3,12 @@
 
 import argparse
 import sys
-from nfms4redd import groups
+from nfms4redd import groups, portal_layers
 
 
 actions = {
-    'groups': groups
+    'groups': groups,
+    'portal-layers': portal_layers
 }
 
 parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
