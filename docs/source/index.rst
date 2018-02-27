@@ -6,3 +6,4 @@ NFMS4REDD Admin Tools
 
    groups
    portal-layers
+   map-layers

@@ -45,6 +45,13 @@ class Layers:
         layer = [l for l in self.root['portalLayers'] if l['id'] == id]
         return layer[0] if len(layer) == 1 else None
 
+    def map_layers(self):
+        return list(map(lambda x: x['id'], self.root['wmsLayers']))
+
+    def map_layer(self, id):
+        layer = [l for l in self.root['wmsLayers'] if l['id'] == id]
+        return layer[0] if len(layer) == 1 else None
+
     def _find_group_recursive(self, currentGroup, testFunction):
         if testFunction(currentGroup):
             return currentGroup
@@ -70,6 +77,11 @@ class Layers:
         return self._find_group_recursive({
             'items': self.root['groups']
         }, check)
+
+    def _find_map_layer_parent(self, id):
+        layers = list(filter(lambda x: id in x['layers'],
+                             self.root['portalLayers']))
+        return layers[0] if len(layers) == 1 else None
 
     def add_group(self, id, label=None, parent=None):
         if self.group(id):
@@ -138,6 +150,7 @@ class Layers:
         if not portal_layer:
             raise Exception('Cannot find portal-layer for id: ' + args.id)
 
+        new_group = None
         if args.group:
             new_group = self.group(args.group)
             if not new_group:
@@ -164,3 +177,95 @@ class Layers:
 
         self.root['portalLayers'].remove(portal_layer)
         parent['items'].remove(portal_layer['id'])
+
+    def _map_layer_from_args(self, args):
+        if args.type == 'wms':
+            layer = vars(args)
+            if layer['url']:
+                layer['baseUrl'] = layer['url'][0]
+            layer['url'] = layer['gmaps_type'] = layer['portal_layer'] = \
+                layer['order'] = None
+        elif args.type == 'osm':
+            layer = {'osmUrls': args.url}
+        elif args.type == 'gmaps':
+            layer = {'gmaps-type': args.gmaps_type}
+
+        baseProps = {
+            'id': args.id,
+            'type': args.type,
+            'sourceLink': args.sourceLink,
+            'sourceLabel': args.sourceLabel,
+            'legend': args.legend,
+            'label': args.label
+        }
+
+        layer.update(baseProps)
+        return {k: v for k, v in layer.items() if v is not None}
+
+    def add_map_layer(self, args):
+        if args.type in ['wms', 'osm'] and not args.url:
+            raise Exception('--url is mandatory for type ' + args.type)
+        elif args.type == 'gmaps' and not args.gmaps_type:
+            raise Exception('--gmaps-type is mandatory for type ' + args.type)
+        elif args.type == 'wms' and not args.wmsName:
+            raise Exception('--wmsName is mandatory for type ' + args.type)
+        elif self.map_layer(args.id):
+            raise Exception('Map-layer id already exists: ' + args.id)
+
+        portal_layer = self.portal_layer(args.portal_layer)
+        if not portal_layer:
+            raise Exception('Cannot find portal-layer for id: '
+                            + args.portal_layer)
+
+        layer = self._map_layer_from_args(args)
+
+        portal_layer['layers'].append(args.id)
+        self.root['wmsLayers'].append(layer)
+
+    def update_map_layer(self, args):
+        layer = self.map_layer(args.id)
+        if not layer:
+            raise Exception('Cannot find map-layer for id: ' + args.id)
+
+        new_portal_layer = None
+        if args.portal_layer:
+            new_portal_layer = self.portal_layer(args.portal_layer)
+            if not new_portal_layer:
+                raise Exception('Cannot find group for id: '
+                                + args.portal_layer)
+
+        if args.order is not None:
+            nLayers = len(self.root["wmsLayers"])
+            if args.order < 1 or args.order > nLayers:
+                raise Exception("El orden de la capa no es válido. "
+                                "Debe de estar entre 1 y " + str(nLayers))
+            layers = self.root["wmsLayers"]
+            # Since the layers are stored in inverse order we need to transform
+            # the index provided by the user to the index in the layer array
+            # inside layers.json
+            index = len(layers) - args.order
+            layers.remove(layer)
+            layers.insert(index, layer)
+
+        if not args.type:
+            args.type = layer['type'] if 'type' in layer else 'wms'
+        new_layer = self._map_layer_from_args(args)
+        layer.update(new_layer)
+
+        old_portal_layer = self._find_map_layer_parent(args.id)
+        if (new_portal_layer and
+                new_portal_layer['id'] != old_portal_layer['id']):
+            new_portal_layer['layers'].append(args.id)
+            old_portal_layer['layers'].remove(args.id)
+
+    def remove_map_layer(self, id):
+        layer = self.map_layer(id)
+        parent = self._find_map_layer_parent(id)
+
+        if not layer:
+            raise Exception('Cannot find portal layer for id: ' + id)
+        if not parent:
+            raise Exception('Cannot find parent for group with id: ' + id)
+
+        self.root['wmsLayers'].remove(layer)
+        parent['layers'].remove(layer['id'])
