@@ -10,10 +10,13 @@ DELETE = 'delete'
 UPDATE = 'update'
 
 
-def add_all_args(parser):
+def _add_all_args(parser, creating):
     parser.add_argument('id', help='Identificador de la portal-layer')
     parser.add_argument('-f', '--file', help='Fichero layers.json')
     parser.add_argument('-l', '--label', help='Etiqueta de la portal-layer')
+    parser.add_argument('-g', '--group',
+                        help='Grupo que contiene la portal-layer',
+                        required=creating)
     parser.add_argument(
         '--infoFile',
         help="Fichero HTML con la información de la capa")
@@ -28,22 +31,22 @@ def add_all_args(parser):
         '--active',
         dest='active',
         help="Hace que la capa esté visible al cargar el portal",
-        action="store_true")
+        action="store_const", const=True)
     parser.add_argument(
         '--no-active',
         dest='active',
         help="Hace que la capa esté invisible al cargar el portal",
-        action="store_false")
+        action="store_const", const=False)
     parser.add_argument(
         '--feedback',
         dest='feedback',
         help="Utilizar la capa para la herramienta feedback",
-        action="store_true")
+        action="store_const", const=True)
     parser.add_argument(
         '--no-feedback',
         dest='feedback',
         help="No utilizar la capa para la herramienta feedback",
-        action="store_false")
+        action="store_const", const=False)
     parser.add_argument(
         '--time-instances',
         dest='timeInstances',
@@ -69,16 +72,11 @@ def configure_parser(parser):
 
     # Add
     add = subparsers.add_parser(ADD, help='Añade una nueva portal-layer')
-    add_all_args(add)
-    add.add_argument('-g', '--group',
-                     help='Grupo que contiene la portal-layer',
-                     required=True)
+    _add_all_args(add, True)
 
     # Update
     update = subparsers.add_parser(UPDATE, help='Actualiza una portal-layer')
-    add_all_args(update)
-    update.add_argument('-g', '--group',
-                        help='Grupo que contiene la portal-layer')
+    _add_all_args(update, False)
 
     # Delete
     delete = subparsers.add_parser(DELETE, help='Elimina una portal-layer')
