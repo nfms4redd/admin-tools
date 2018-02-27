@@ -3,13 +3,14 @@
 
 import argparse
 import sys
-from nfms4redd import groups, portal_layers, map_layers
+from nfms4redd import groups, portal_layers, map_layers, tree
 
 
 actions = {
     'groups': groups,
     'portal-layers': portal_layers,
-    'map-layers': map_layers
+    'map-layers': map_layers,
+    'tree': tree
 }
 
 parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     if not args.cmd:
         parser.print_help()
     else:
-        #try:
+        try:
             actions[args.cmd].run(args)
-        #except Exception as e:
-        #    print(e, file=sys.stderr)
+        except Exception as e:
+            print(e, file=sys.stderr)

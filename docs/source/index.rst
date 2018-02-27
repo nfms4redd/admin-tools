@@ -7,3 +7,8 @@ NFMS4REDD Admin Tools
    groups
    portal-layers
    map-layers
+
+.. toctree::
+   :maxdepth: 1
+
+   tree
