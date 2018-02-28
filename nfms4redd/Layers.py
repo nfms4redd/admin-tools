@@ -27,9 +27,6 @@ class Layers:
         with open(self.path, "w") as f:
             json.dump(self.root, f, indent=4, sort_keys=True)
 
-    def root(self):
-        return self.root
-
     def groups(self):
         return self.root['groups']
 

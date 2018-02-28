@@ -17,16 +17,6 @@
 			"sourceLink" : "http://osfac.net/facet.html",
 			"sourceLabel" : "FACET"
 		}, {
-			"id" : "forestClassification2",
-			"label" : "${facet_forest_classification2}",
-			"baseUrl" : "http://demo1.geo-solutions.it/diss_geoserver/gwc/service/wms",
-			"wmsName" : "unredd:drc_forest_classification2",
-			"imageFormat" : "image/png8",
-			"visible" : true,
-			"legend" : "forest_classification2.png",
-			"sourceLink" : "http://osfac.net/facet.html",
-			"sourceLabel" : "FACET"
-		}, {
 			"id" : "forest_mask",
 			"label" : "${forest_mask}",
 			"baseUrl" : "http://demo1.geo-solutions.it/diss_geoserver/wms",

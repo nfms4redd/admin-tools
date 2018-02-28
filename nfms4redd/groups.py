@@ -10,8 +10,8 @@ DELETE = 'delete'
 UPDATE = 'update'
 
 
-def show(obj):
-    print(json.dumps(obj, indent=4, sort_keys=True))
+def show(obj, out):
+    print(json.dumps(obj, indent=4, sort_keys=True), file=out)
 
 
 def configure_parser(parser):
@@ -49,8 +49,9 @@ def configure_parser(parser):
                         required=False)
 
 
-def run(args):
-    layers = Layers(args.file or None)
+def run(args, layers):
+    if not layers:
+        layers = Layers(args.file or None)
     if not args.groups_cmd:
         show(layers.groups())
     elif args.groups_cmd == GET:

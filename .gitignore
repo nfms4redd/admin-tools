@@ -3,3 +3,5 @@ env
 docs/build
 __pycache__
 *.egg-info
+.coverage
+htmlcov
