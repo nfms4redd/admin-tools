@@ -119,7 +119,9 @@ class Layers:
         if label:
             group['label'] = label
 
-        if parent and parent != oldParent['id']:
+        isOldParentRoot = oldParent['items'] == self.root['groups']
+        if parent and (
+                isOldParentRoot or parent != oldParent['id']):
             newParent = self.group(parent)
             if not newParent:
                 raise Exception('Cannot find new parent: ' + parent)
@@ -156,7 +158,6 @@ class Layers:
         new_portal_layer = {k: v for k, v in vars(args).items()
                             if v is not None}
         portal_layer.update(new_portal_layer)
-        del portal_layer['group']
 
         old_group = self._find_group_parent(args.id)
         if new_group and new_group['id'] != old_group['id']:
@@ -179,7 +180,7 @@ class Layers:
         if args.type == 'wms':
             layer = vars(args)
             if layer['url']:
-                layer['baseUrl'] = layer['url'][0]
+                layer['baseUrl'] = layer['url']
             layer['url'] = layer['gmaps_type'] = layer['portal_layer'] = \
                 layer['order'] = None
         elif args.type == 'osm':
@@ -195,7 +196,6 @@ class Layers:
             'legend': args.legend,
             'label': args.label
         }
-
         layer.update(baseProps)
         return {k: v for k, v in layer.items() if v is not None}
 
