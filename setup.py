@@ -12,5 +12,6 @@ setup(
     keywords=['nfms4redd', 'fao', 'unredd',
               'nfms', 'snmb', 'cli', 'geoladris'],
     classifiers=[],
-    scripts=['nfms4redd/portal', 'nfms4redd/monit-config']
+    scripts=['nfms4redd/portal', 'nfms4redd/monit-config'],
+    install_requires=['requests']
 )
