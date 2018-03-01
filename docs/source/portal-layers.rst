@@ -1,13 +1,13 @@
 :tocdepth: 2
 
-Portal Layers
+portal-layers
 =============
 
 get
 ---
 
 .. argparse::
-  :filename: ../nfms4redd/portal
+  :module: nfms4redd.parser_portal
   :func: parser
   :prog: portal
   :path: portal-layers get
@@ -15,7 +15,7 @@ get
 add
 ---
 .. argparse::
-  :filename: ../nfms4redd/portal
+  :module: nfms4redd.parser_portal
   :func: parser
   :prog: portal
   :path: portal-layers add
@@ -23,7 +23,7 @@ add
 update
 ------
 .. argparse::
-  :filename: ../nfms4redd/portal
+  :module: nfms4redd.parser_portal
   :func: parser
   :prog: portal
   :path: portal-layers update
@@ -31,7 +31,7 @@ update
 delete
 ------
 .. argparse::
-  :filename: ../nfms4redd/portal
+  :module: nfms4redd.parser_portal
   :func: parser
   :prog: portal
   :path: portal-layers delete

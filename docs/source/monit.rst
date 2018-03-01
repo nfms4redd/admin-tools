@@ -1,9 +1,9 @@
 :tocdepth: 1
 
-Monit
-=====
+monit-config
+============
 
 .. argparse::
-  :filename: ../nfms4redd/monit
+  :module: nfms4redd.parser_monit
   :func: parser
   :prog: monit

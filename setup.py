@@ -12,5 +12,5 @@ setup(
     keywords=['nfms4redd', 'fao', 'unredd',
               'nfms', 'snmb', 'cli', 'geoladris'],
     classifiers=[],
-    scripts=['nfms4redd/portal', 'nfms4redd/monit']
+    scripts=['nfms4redd/portal', 'nfms4redd/monit-config']
 )

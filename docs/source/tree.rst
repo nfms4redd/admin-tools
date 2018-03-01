@@ -1,10 +1,10 @@
 :tocdepth: 2
 
-Tree
+tree
 ====
 
 .. argparse::
-  :filename: ../nfms4redd/portal
+  :module: nfms4redd.parser_portal
   :func: parser
   :prog: portal
   :path: tree
