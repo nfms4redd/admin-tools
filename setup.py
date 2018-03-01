@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='nfms4redd-cli',
     packages=['nfms4redd'],
-    version='0.0.1',
+    version='0.0.2',
     description='NFMS4REDD CLI',
     author='geomati.co',
     author_email='info@geomati.co',
