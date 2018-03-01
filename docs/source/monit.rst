@@ -6,4 +6,4 @@ monit-config
 .. argparse::
   :module: nfms4redd.parser_monit
   :func: parser
-  :prog: monit
+  :prog: monit-config
