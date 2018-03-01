@@ -7,7 +7,9 @@ import requests
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 
-parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
+parser = argparse.ArgumentParser(
+    description='Genera configuración de Monit para todas las capas de un '
+    'servicio WMS')
 parser.add_argument('-u', '--url', required=True, help='URL del servicio WMS')
 
 TEMPLATE = '''CHECK HOST $layername WITH ADDRESS $server
@@ -21,7 +23,7 @@ then alert'''
 
 
 def generate(url):
-    print('Downloading GetCapabilities: ' + url, file=sys.stderr)
+    print('Descargando GetCapabilities: ' + url, file=sys.stderr)
 
     parsed = urlparse(url)
     appUrl = parsed.path + "?"

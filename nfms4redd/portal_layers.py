@@ -11,6 +11,7 @@ UPDATE = 'update'
 
 
 def _add_all_args(parser, creating):
+    parser.description = HELP
     parser.add_argument('id', help='Identificador de la portal-layer')
     parser.add_argument('-f', '--file', help='Fichero layers.json')
     parser.add_argument('-l', '--label', help='Etiqueta de la portal-layer')
@@ -59,6 +60,7 @@ def _add_all_args(parser, creating):
 
 
 def configure_parser(parser):
+    parser.description = HELP
     subparsers = parser.add_subparsers(
         title='Comandos', dest='portal_layers_cmd',
         help='Obtiene información de todas las portal-layers')
@@ -66,20 +68,24 @@ def configure_parser(parser):
 
     # Get
     get = subparsers.add_parser(
-        GET, help='Obtiene información de una portal-layer')
+        GET, help='Obtiene información de una portal-layer',
+        description='Obtiene información de una portal-layer')
     get.add_argument('id', help='Identificador de la portal-layer')
     get.add_argument('-f', '--file', help='Fichero layers.json')
 
     # Add
-    add = subparsers.add_parser(ADD, help='Añade una nueva portal-layer')
+    add = subparsers.add_parser(ADD, help='Añade una nueva portal-layer',
+                                description='Añade una nueva portal-layer')
     _add_all_args(add, True)
 
     # Update
-    update = subparsers.add_parser(UPDATE, help='Actualiza una portal-layer')
+    update = subparsers.add_parser(UPDATE, help='Actualiza una portal-layer',
+                                   description='Actualiza una portal-layer')
     _add_all_args(update, False)
 
     # Delete
-    delete = subparsers.add_parser(DELETE, help='Elimina una portal-layer')
+    delete = subparsers.add_parser(DELETE, help='Elimina una portal-layer',
+                                   description='Elimina una portal-layer')
     delete.add_argument('id', help='Identificador de la portal-layer')
     delete.add_argument('-f', '--file', help='Fichero layers.json')
 
@@ -95,21 +101,22 @@ def run(args):
     elif args.portal_layers_cmd == GET:
         portal_layer = layers.portal_layer(args.id)
         if portal_layer is None:
-            raise Exception('Invalid portal layer id: ' + args.id)
+            raise Exception('No se puede encontrar la portal-layer con id "'
+                            + args.id + '"')
         show(portal_layer)
     elif args.portal_layers_cmd == ADD:
         del args.portal_layers_cmd
         del args.cmd
         del args.file
         layers.add_portal_layer(args)
-        print('Layer has been added.')
+        print('Se ha añadido la capa.')
     elif args.portal_layers_cmd == UPDATE:
         del args.portal_layers_cmd
         del args.cmd
         del args.file
         layers.update_portal_layer(args)
-        print('Layer has been updated.')
+        print('Se ha actualizado la capa.')
     elif args.portal_layers_cmd == DELETE:
         layers.remove_portal_layer(args.id)
-        print('Layer has been removed.')
+        print('Se ha eliminado la capa.')
     layers.save()

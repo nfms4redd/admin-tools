@@ -82,12 +82,12 @@ class Layers:
 
     def add_group(self, id, label=None, parent=None):
         if self.group(id):
-            raise Exception('Group id already exists: ' + id)
+            raise Exception('El grupo con id "' + id + '" ya existe')
 
         if parent:
             parentGroup = self.group(parent)
             if not parentGroup:
-                raise Exception('Invalid parent id: ' + parent)
+                raise Exception('El padre con id "' + parent + '" no existe')
             parentItems = parentGroup['items']
         else:
             parentItems = self.root['groups']
@@ -103,9 +103,10 @@ class Layers:
         parent = self._find_group_parent(id)
 
         if not group:
-            raise Exception('Cannot find group for id: ' + id)
+            raise Exception('El grupo con id "' + id + '" no existe')
         if not parent:
-            raise Exception('Cannot find parent for group with id: ' + id)
+            raise Exception('No se puede encontrar el padre del grupo con id "'
+                            + id + '"')
 
         parent['items'].remove(group)
 
@@ -114,7 +115,7 @@ class Layers:
         oldParent = self._find_group_parent(id)
 
         if not group:
-            raise Exception('Cannot find group for id: ' + id)
+            raise Exception('El grupo con id "' + id + '" no existe')
 
         if label:
             group['label'] = label
@@ -124,18 +125,21 @@ class Layers:
                 isOldParentRoot or parent != oldParent['id']):
             newParent = self.group(parent)
             if not newParent:
-                raise Exception('Cannot find new parent: ' + parent)
+                raise Exception('No se puede encontrar el padre del '
+                                'grupo con id "' + parent + '"')
             newParent['items'].append(group)
             oldParent['items'].remove(group)
 
     def add_portal_layer(self, args):
         portal_layer = self.portal_layer(args.id)
         if portal_layer:
-            raise Exception('Portal-layer id already exists: ' + args.id)
+            raise Exception('La portal-layer con id "' + args.id
+                            + '" ya existe')
 
         group = self.group(args.group)
         if not group:
-            raise Exception('Cannot find group for id: ' + args.group)
+            raise Exception('No se puede encontrar el grupo con id "'
+                            + args.group + '"')
 
         portal_layer = {k: v for k, v in vars(args).items() if v is not None}
         portal_layer['layers'] = []
@@ -147,13 +151,15 @@ class Layers:
     def update_portal_layer(self, args):
         portal_layer = self.portal_layer(args.id)
         if not portal_layer:
-            raise Exception('Cannot find portal-layer for id: ' + args.id)
+            raise Exception('No se puede encontrar la portal-layer con id "'
+                            + args.id + '"')
 
         new_group = None
         if args.group:
             new_group = self.group(args.group)
             if not new_group:
-                raise Exception('Cannot find group for id: ' + args.group)
+                raise Exception('No se puede encontrar el grupo con id "'
+                                + args.group + '"')
 
         new_portal_layer = {k: v for k, v in vars(args).items()
                             if v is not None}
@@ -169,9 +175,12 @@ class Layers:
         parent = self._find_group_parent(id)
 
         if not portal_layer:
-            raise Exception('Cannot find portal layer for id: ' + id)
+            raise Exception('No se puede encontrar la portal-layer con id "'
+                            + args.id + '"')
         if not parent:
-            raise Exception('Cannot find parent for group with id: ' + id)
+            raise Exception('No se puede encontrar el grupo de la '
+                            'portal-layer con id "'
+                            + args.id + '"')
 
         self.root['portalLayers'].remove(portal_layer)
         parent['items'].remove(portal_layer['id'])
@@ -201,18 +210,19 @@ class Layers:
 
     def add_map_layer(self, args):
         if args.type in ['wms', 'osm'] and not args.url:
-            raise Exception('--url is mandatory for type ' + args.type)
+            raise Exception('--url es obligatorio para type=' + args.type)
         elif args.type == 'gmaps' and not args.gmaps_type:
-            raise Exception('--gmaps-type is mandatory for type ' + args.type)
+            raise Exception('--gmaps-type es obligatorio para type='
+                            + args.type)
         elif args.type == 'wms' and not args.wmsName:
-            raise Exception('--wmsName is mandatory for type ' + args.type)
+            raise Exception('--wmsName es obligatorio para type=' + args.type)
         elif self.map_layer(args.id):
-            raise Exception('Map-layer id already exists: ' + args.id)
+            raise Exception('La map-layer con id "' + args.id + '" ya existe')
 
         portal_layer = self.portal_layer(args.portal_layer)
         if not portal_layer:
-            raise Exception('Cannot find portal-layer for id: '
-                            + args.portal_layer)
+            raise Exception('No se puede encontrar la portal-layer con id "'
+                            + args.portal_layer + '"')
 
         layer = self._map_layer_from_args(args)
 
@@ -222,14 +232,15 @@ class Layers:
     def update_map_layer(self, args):
         layer = self.map_layer(args.id)
         if not layer:
-            raise Exception('Cannot find map-layer for id: ' + args.id)
+            raise Exception('No se puede encontrar la map-layer con id "'
+                            + args.id + '"')
 
         new_portal_layer = None
         if args.portal_layer:
             new_portal_layer = self.portal_layer(args.portal_layer)
             if not new_portal_layer:
-                raise Exception('Cannot find group for id: '
-                                + args.portal_layer)
+                raise Exception('No se puede encontrar la portal-layer con '
+                                'id "' + args.portal_layer + '"')
 
         if args.order is not None:
             nLayers = len(self.root["wmsLayers"])
@@ -260,8 +271,11 @@ class Layers:
         parent = self._find_map_layer_parent(id)
 
         if not layer:
-            raise Exception('Cannot find portal layer for id: ' + id)
+            raise Exception('No se puede encontrar la map-layer con id "'
+                            + id + '"')
         if not parent:
+            raise Exception('No se puede encontrar la portal-layer que '
+                            'contiene la map-layer con id "' + id + '"')
             raise Exception('Cannot find parent for group with id: ' + id)
 
         self.root['wmsLayers'].remove(layer)

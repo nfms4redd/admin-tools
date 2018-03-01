@@ -2,7 +2,7 @@
 # # -*- coding: utf-8 -*-
 import json
 from nfms4redd.Layers import Layers
-HELP = 'map-layers del fichero layers.json'
+HELP = 'Maneja las wmsLayers del fichero layers.json'
 ADD = 'add'
 GET = 'get'
 DELETE = 'delete'
@@ -87,6 +87,7 @@ def _add_all_arguments(parser, creating):
 
 
 def configure_parser(parser):
+    parser.description = HELP
     subparsers = parser.add_subparsers(
         title='Comandos', dest='map_layers_cmd',
         help='Obtiene información de todas las map-layers')
@@ -94,22 +95,26 @@ def configure_parser(parser):
 
     # Get
     get = subparsers.add_parser(
-        GET, help='Obtiene información de una map-layer')
+        GET, help='Obtiene información de una map-layer',
+        description='Obtiene información de una map-layer')
     get.add_argument('id', help='Identificador de la map-layer')
     get.add_argument('-f', '--file', help='Fichero layers.json')
 
     # Delete
-    delete = subparsers.add_parser(DELETE, help='Elimina una map-layer')
+    delete = subparsers.add_parser(DELETE, help='Elimina una map-layer',
+                                   description='Elimina una map-layer')
     delete.add_argument('id', help='Identificador de la map-layer')
     delete.add_argument('-f', '--file', help='Fichero layers.json')
 
     # Add
-    add = subparsers.add_parser(ADD, help='Añade una nueva map-layer')
+    add = subparsers.add_parser(ADD, help='Añade una nueva map-layer',
+                                description='Añade una nueva map-layer')
     _add_all_arguments(add, True)
 
     # Update
     update = subparsers.add_parser(
-        UPDATE, help='Actualiza una map-layer existente')
+        UPDATE, help='Actualiza una map-layer existente',
+        description='Actualiza una map-layer existente')
     _add_all_arguments(update, False)
 
 
@@ -124,21 +129,22 @@ def run(args):
     elif args.map_layers_cmd == GET:
         layer = layers.map_layer(args.id)
         if layer is None:
-            raise Exception('Invalid map layer id: ' + args.id)
+            raise Exception('No se puede encontrar la map-layer con id "'
+                            + args.id + '"')
         show(layer)
     elif args.map_layers_cmd == ADD:
         del args.map_layers_cmd
         del args.cmd
         del args.file
         layers.add_map_layer(args)
-        print('Layer has been added.')
+        print('Se ha añadido la capa.')
     elif args.map_layers_cmd == UPDATE:
         del args.map_layers_cmd
         del args.cmd
         del args.file
         layers.update_map_layer(args)
-        print('Layer has been updated.')
+        print('Se ha actualizado la capa.')
     elif args.map_layers_cmd == DELETE:
         layers.remove_map_layer(args.id)
-        print('Layer has been removed.')
+        print('Se ha eliminado la capa.')
     layers.save()

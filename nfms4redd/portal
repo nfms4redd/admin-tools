@@ -13,7 +13,8 @@ actions = {
     'tree': tree
 }
 
-parser = argparse.ArgumentParser(description='NFMS4REDD CLI')
+parser = argparse.ArgumentParser(
+    description='Línea de comandos para manejar el fichero layers.json')
 
 subparsers = parser.add_subparsers(title='Comandos', dest='cmd')
 

@@ -3,7 +3,7 @@
 from nfms4redd.Layers import Layers
 import json
 
-HELP = 'Árbol de capas del fichero layers.json'
+HELP = 'Muestra el árbol de capas y el orden de dibujado'
 
 
 def show(obj):
@@ -11,6 +11,7 @@ def show(obj):
 
 
 def configure_parser(parser):
+    parser.description = HELP
     parser.add_argument('-f', '--file', help='Fichero layers.json')
 
 
@@ -29,8 +30,8 @@ def run(args):
             else:
                 print('\t' * indent + item.get("id"))
                 _showGroupItems(item.get("items"), indent + 1)
-    print("LAYER TREE")
-    print("==========")
+    print("ÁRBOL")
+    print("=====")
     print("/")
     _showGroupItems(root["groups"], 1)
 
@@ -41,8 +42,8 @@ def run(args):
             ids.append(layer["id"])
 
     print("\n")
-    print("MAP LAYER ORDER")
-    print("===============")
+    print("ORDER DE DIBUJADO")
+    print("=================")
     ids.reverse()
     for i in range(len(ids)):
         print(str(i + 1) + ". " + ids[i])
