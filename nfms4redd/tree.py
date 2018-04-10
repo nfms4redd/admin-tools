@@ -38,7 +38,7 @@ def run(args):
     # Get layer identifiers only for visible layers
     ids = []
     for layer in root["wmsLayers"]:
-        if layer["visible"]:
+        if "visible" in layer and layer["visible"]:
             ids.append(layer["id"])
 
     print("\n")

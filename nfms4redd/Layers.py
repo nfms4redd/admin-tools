@@ -203,7 +203,9 @@ class Layers:
             'sourceLink': args.sourceLink,
             'sourceLabel': args.sourceLabel,
             'legend': args.legend,
-            'label': args.label
+            'label': args.label,
+            'visible': args.visible,
+            'order': args.order
         }
         layer.update(baseProps)
         return {k: v for k, v in layer.items() if v is not None}
@@ -259,6 +261,8 @@ class Layers:
             args.type = layer['type'] if 'type' in layer else 'wms'
         new_layer = self._map_layer_from_args(args)
         layer.update(new_layer)
+
+
 
         old_portal_layer = self._find_map_layer_parent(args.id)
         if (new_portal_layer and
